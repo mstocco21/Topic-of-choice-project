@@ -1,0 +1,10 @@
+## Code repository for topic of choice pipeline
+## Matthew Tocco
+# = code, ## for comment, ? = possibly modify for later
+
+# efetch -db=transcriptome -id=SRX4795559 -format=gb>m1rep1.gbk ?????
+# efetch -db=transcriptome -id=SRX4795560 -format=gb>m1rep2.gbk ?????
+# python genbank_to_fasta.py m1rep1.gbk m1rep1.fasta ?????
+# python genbank_to_fasta.py m1rep2.gbk m1rep2.fasta ?????
+## This downloads the first two datasets of the 8 for analysis and converts them to fasta files
+
