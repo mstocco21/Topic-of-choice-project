@@ -1,0 +1,190 @@
+## Code repository for topic of choice pipeline
+## Matthew Tocco
+# = code, ## for comment, ? = possibly modify for later
+
+## This is the R project for M. Tocco's TOC project
+## The following pipeline will be using using the GEO data set from the personal WinSCP files
+
+
+# install.packages("readr")
+# install.packages("tidyverse")
+# if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager") 
+# BiocManager::install("DESeq2")
+
+# library(readr)
+# library(tidyverse)
+# library(DESeq2)
+
+## this will begin the pipeline for the GEOdata set, individual M1 and M2 reads will follow
+# mycounts <- read_csv("data/GSE120796_RawCount.csv") 
+# metadata <- read_csv("data/GSE120796_Metadata.csv")
+
+## examines data
+# head(mycounts)
+# head(metadata)
+
+## prepare data for DESeq
+# mycounts <- as.data.frame(mycounts)
+# metadata <- as.data.frame(metadata)
+
+# names(mycounts)[-1]
+# metadata$id
+# names(mycounts)[-1]==metadata$id
+# all(names(mycounts)[-1]==metadata$id)
+
+## 12 begins here -----------------------------------------------------------------------------------------------------------------------------
+
+# count12 <- mycounts%>%
+   select(gene_id, Lal_1, Lal_2, Lal_5, Lal_6)
+# metadata12 <- metadata%>%
+   filter(M == "M1" | M == "M2")
+# dds12.data <- DESeqDataSetFromMatrix(countData=count12, 
+                                   colData=metadata12, 
+                                   design=~M, 
+                                   tidy=TRUE)
+# dds
+# dds12 <- DESeq(dds12.data)
+# res12 <- results(dds12, tidy=TRUE)
+# res12 <- tbl_df(res12)
+# res12
+
+## uses plotCounts to plot expression of a gene
+# plotCounts(dds, gene="ENSG00000256599", intgroup="M")
+# plotCounts(dds, gene="ENSG00000256599", intgroup="M", returnData=TRUE)
+# plotCounts(dds, gene="ENSG00000256599", intgroup="M", returnData=TRUE) %>%
+   ggplot(aes(M,count))+
+   geom_boxplot(aes(fill=M))+
+   scale_y_log10() + 
+   ggtitle("ENSG00000256599 expression")
+
+## run deseq
+# dds12 <- DESeq(dds12.data)
+
+## gather results
+# res12 <- results(dds12, tidy=TRUE)
+# res12 <- tbl_df(res12)
+# res12
+
+## use dplyr in tidyverse to add a column indicating significance.
+# res12=mutate(res12,significance=ifelse(padj<0.05,"Significant","Non-significant"))
+# ggplot(res12)+
+   geom_point(aes(x=log2FoldChange, y=padj))
+
+## creates a volcano plot 
+# ggplot(res12) +
+   geom_point(aes(x=log2FoldChange, y=-log10(padj), colour=significance)) +
+   ggtitle("M1/M2 gene expression variation") +
+   xlab("log2 fold change") + 
+   ylab("-log10 adjusted p-value") +
+   #scale_y_continuous(limits = c(0,50)) +
+   theme(legend.position = "none",
+        plot.title = element_text(size = rel(1.5), hjust = 0.5),
+        axis.title = element_text(size = rel(1.25)))  +
+   theme_bw()
+
+
+# 12 ends here ------------------------------------------------------------------------------------------------------------------------------
+
+# 23 begins here ----------------------------------------------------------------------------------------------------------------------------
+
+# count23 <- mycounts%>%
+   select(gene_id, Lal_5, Lal_6, Lal_3, Lal_7)
+# metadata23 <- metadata%>%
+   filter(M == "M2" | M == "M3")
+# dds23.data <- DESeqDataSetFromMatrix(countData=count23, 
+                                   colData=metadata23, 
+                                   design=~M, 
+                                   tidy=TRUE)
+# dds
+# dds23 <- DESeq(dds23.data)
+# res23 <- results(dds23, tidy=TRUE)
+# res23 <- tbl_df(res23)
+# res23
+
+## uses plotCounts to plot expression of a gene
+# plotCounts(dds, gene="ENSG00000262456", intgroup="M")
+# plotCounts(dds, gene="ENSG00000262456", intgroup="M", returnData=TRUE)
+# plotCounts(dds, gene="ENSG00000262456", intgroup="M", returnData=TRUE) %>%
+    ggplot(aes(M,count))+
+    geom_boxplot(aes(fill=M))+
+    scale_y_log10() + 
+    ggtitle("ENSG00000256599 expression")
+
+## run deseq
+# dds23 <- DESeq(dds23.data)
+
+## gather results
+# res23 <- results(dds23, tidy=TRUE)
+# res23 <- tbl_df(res23)
+# res23
+
+# use dplyr in tidyverse to add a column indicating significance.
+# res23=mutate(res23,significance=ifelse(padj<0.05,"Significant","Non-significant"))
+# ggplot(res23)+
+   geom_point(aes(x=log2FoldChange, y=padj))
+
+# creates a volcano plot 
+# ggplot(res23) +
+   geom_point(aes(x=log2FoldChange, y=-log10(padj), colour=significance)) +
+   ggtitle("M2/M3 gene expression variation") +
+   xlab("log2 fold change") + 
+   ylab("-log10 adjusted p-value") +
+   #scale_y_continuous(limits = c(0,50)) +
+   theme(legend.position = "none",
+        plot.title = element_text(size = rel(1.5), hjust = 0.5),
+        axis.title = element_text(size = rel(1.25)))  +
+   theme_bw()
+
+# 23 ends here ------------------------------------------------------------------------------------------------------------------------------
+
+# 34 begins here ----------------------------------------------------------------------------------------------------------------------------
+
+# count34 <- mycounts%>%
+   select(gene_id, Lal_3, Lal_7, Lal_4, Lal_8)
+# metadata34 <- metadata%>%
+   filter(M == "M3" | M == "M4")
+# dds34.data <- DESeqDataSetFromMatrix(countData=count34, 
+                                   colData=metadata34, 
+                                   design=~M, 
+                                   tidy=TRUE)
+# dds
+# dds34 <- DESeq(dds34.data)
+# res34 <- results(dds34, tidy=TRUE)
+# res34 <- tbl_df(res34)
+# res34
+
+## uses plotCounts to plot expression of a gene
+# plotCounts(dds, gene="ENSG00000243135", intgroup="M")
+# plotCounts(dds, gene="ENSG00000243135", intgroup="M", returnData=TRUE)
+# plotCounts(dds, gene="ENSG00000243135", intgroup="M", returnData=TRUE) %>%
+   ggplot(aes(M,count))+
+   geom_boxplot(aes(fill=M))+
+   scale_y_log10() + 
+   ggtitle("ENSG00000251349 expression")
+
+## run deseq
+# dds34 <- DESeq(dds34.data)
+
+## gather results
+# res34 <- results(dds34, tidy=TRUE)
+# res34 <- tbl_df(res34)
+# res34
+
+## use dplyr in tidyverse to add a column indicating significance.
+# res34=mutate(res34,significance=ifelse(padj<0.05,"Significant","Non-significant"))
+# ggplot(res34)+
+   geom_point(aes(x=log2FoldChange, y=padj))
+
+## creates a volcano plot 
+# ggplot(res34) +
+   geom_point(aes(x=log2FoldChange, y=-log10(padj), colour=significance)) +
+   ggtitle("M3/M4 gene expression variation") +
+   xlab("log2 fold change") + 
+   ylab("-log10 adjusted p-value") +
+   #scale_y_continuous(limits = c(0,50)) +
+   theme(legend.position = "none",
+        plot.title = element_text(size = rel(1.5), hjust = 0.5),
+        axis.title = element_text(size = rel(1.25)))  +
+   theme_bw()
+
+## 34 ends here -----------------------------------------------------------------------------------------------------------------------------
