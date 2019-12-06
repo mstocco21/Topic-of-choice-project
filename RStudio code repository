@@ -32,6 +32,20 @@
 # names(mycounts)[-1]==metadata$id
 # all(names(mycounts)[-1]==metadata$id)
 
+## PCA plor preparation/attunement
+# rld=rlog(dds)
+# plotPCA(rld, intgroup = "M")
+# pcaData <- plotPCA(rld, intgroup=c("M"), returnData=TRUE)
+# percentVar <- round(100 * attr(pcaData, "percentVar"))
+
+## PCA plotting
+# ggplot(pcaData, aes(PC1, PC2, color=M, shape=M)) +
+   geom_point(size=3) +
+   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+   ylab(paste0("PC2: ",percentVar[2],"% variance")) + 
+   coord_fixed()+
+   theme_bw()
+
 ## 12 begins here -----------------------------------------------------------------------------------------------------------------------------
 
 # count12 <- mycounts%>%
